@@ -1,3 +1,4 @@
+using GraphQLBooks.GraphQL;
 using GraphQLBooks.Models;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
