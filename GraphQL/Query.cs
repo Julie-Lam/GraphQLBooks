@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 public class Query
 {
-    public List<Book> Books => ReadBooks();   
+    //public List<Book> Books => ReadAllBooks();   
 
     public List<Magazine> Magazines => ReadMagazines();
 
@@ -12,10 +12,24 @@ public class Query
 
     public List<IThings> Things => GetThings(); 
 
-    private List<Book> ReadBooks()  {
+    private List<Book> ReadAllBooks()  {
         string fileName = "Database/books.json";
         string jsonString = File.ReadAllText(fileName);
         return JsonSerializer.Deserialize<List<Book>>(jsonString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters={new JsonStringEnumConverter()} })!;
+    }
+
+    public List<Book> Books(string nameContains="")
+    {
+        var books = ReadAllBooks(); 
+        if (String.IsNullOrWhiteSpace(nameContains)) 
+        {
+            return books; 
+        }
+
+
+        return books.Where(b => b.Name.Contains(nameContains)).ToList(); 
+
+
     }
 
 
@@ -29,7 +43,7 @@ public class Query
     private List<IReadingMaterials> GetReadingMaterials()
     {
         var readingMaterials = new List<IReadingMaterials>();
-        readingMaterials.AddRange(ReadBooks());
+        readingMaterials.AddRange(ReadAllBooks());
         readingMaterials.AddRange(ReadMagazines());
 
 
@@ -40,7 +54,7 @@ public class Query
     private List<IThings> GetThings()
     {
         var things = new List<IThings>();
-        things.AddRange(ReadBooks());
+        things.AddRange(ReadAllBooks());
         things.AddRange(ReadMagazines());
 
 
