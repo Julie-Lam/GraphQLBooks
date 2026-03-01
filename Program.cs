@@ -1,3 +1,4 @@
+using GraphQLBooks.Models;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.EntityFrameworkCore;
@@ -5,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGraphQLServer().
-    AddQueryType<Query>();
+    AddQueryType<Query>()
+    .AddInterfaceType<IReadingMaterials>(); 
     
 var app = builder.Build();
 
